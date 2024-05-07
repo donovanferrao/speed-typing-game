@@ -63,3 +63,24 @@ body .quote-input{
     color: red;
     text-decoration: underline;
 }
+
+.start-button {
+    display: block;
+    margin: auto;
+    /* Aligns the button in the center horizontally */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.start-button:hover {
+    background-color: #45a049;
+}
+
+.words-count {
+    text-align: center;
+}

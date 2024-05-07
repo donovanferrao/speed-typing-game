@@ -2,6 +2,14 @@ const randomQuoteGenerator = "http://api.quotable.io/random";
 const quoteElementDisplay = document.getElementById("quoteDisplay");
 const quoteInputElement = document.getElementById("quoteInput");
 const timerElement = document.getElementById("timer");
+const startButton = document.getElementById("startButton");
+const wordsCountElement = document.getElementById("wordsCount");
+
+let intervalId;
+
+startButton.addEventListener("click", () => {
+  getNextQuote();
+});
 
 quoteInputElement.addEventListener("input", () => {
   const arrayQuote = quoteElementDisplay.querySelectorAll("span");
@@ -24,7 +32,10 @@ quoteInputElement.addEventListener("input", () => {
       correct = false;
     }
   });
-  if (correct) getNextQuote();
+  if (correct && arrayValue.length === arrayQuote.length) {
+    clearInterval(intervalId);
+    displayWordsCount(arrayValue.length);
+  }
 });
 
 function getRandomQuote() {
@@ -47,15 +58,25 @@ async function getNextQuote() {
 
 let startTime;
 function startTimer() {
-  timerElement.innerText = 0;
+  clearInterval(intervalId);
+  timerElement.innerText = 60;
   startTime = new Date();
-  setInterval(() => {
-    timer.innerText = getTimerTime();
+  intervalId = setInterval(() => {
+    const timeLeft = 60 - getTimerTime();
+    timerElement.innerText = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(intervalId);
+      displayWordsCount(0);
+    }
   }, 1000);
 }
 
 function getTimerTime() {
   return Math.floor((new Date() - startTime) / 1000);
+}
+
+function displayWordsCount(wordsCount) {
+  wordsCountElement.innerText = `Letters Typed: ${wordsCount}`;
 }
 
 getNextQuote();
